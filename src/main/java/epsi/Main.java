@@ -12,6 +12,7 @@ import java.security.CodeSource;
 import java.util.List;
 import java.util.Map;
 
+import epsi.services.FileReader;
 import org.apache.commons.lang3.StringUtils;
 
 import epsi.services.DataParser;
@@ -20,7 +21,8 @@ import epsi.utils.Utils;
 public class Main {
     public static void main(String[] args) {
         DataParser parser = new DataParser();
-        String fileName = "agents/durand.txt";
+
+        FileReader.print(Utils.getJarAbsolutePath() + "/material.txt");
 
         System.out.println("\nMATERIALS : ");
         System.out.println(parser.getMaterials());
