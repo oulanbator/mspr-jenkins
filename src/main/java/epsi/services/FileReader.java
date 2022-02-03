@@ -1,21 +1,25 @@
 package epsi.services;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class FileReader {
 
-    /**
-     * Récupère le contenu du fichier passé en paramètre dans une variable de type String
-     * @param fileName chemin relatif ver le fichier depuis "src/main/resources/"
-     * @return Un String avec le contenu du fichier
-     */
-    public static String getAsString(String fileName) {
-        InputStream stream = loadStream(fileName);
-        return getFileFromStreamAsString(stream);
+    public static String getAsString(String fullFilePath) {
+        String str = "";
+        try {
+            File file = new File(fullFilePath);
+            FileInputStream fileStream = new FileInputStream(file);
+            byte data[] = new byte[fileStream.available()];
+            fileStream.read(data);
+            fileStream.close();
+            str = new String(data);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+//        InputStream stream = loadStream(fileName);
+//        return getFileFromStreamAsString(stream);
     }
 
     /**
@@ -26,15 +30,17 @@ public class FileReader {
      * @return Un stream avec le contenu du fichier
      */
     private static InputStream loadStream(String fileName) {
-        // Get the input stream
-        FileReader reader = new FileReader();
-        InputStream inputStream = reader.getClass().getClassLoader().getResourceAsStream(fileName);
-        // return the stream holding the file content or throw error
-        if (inputStream == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return inputStream;
-        }
+//        // Get the input stream
+//        FileReader reader = new FileReader();
+//        InputStream inputStream = reader.get
+////        InputStream inputStream = reader.getClass().getClassLoader().getResourceAsStream(fileName);
+//        // return the stream holding the file content or throw error
+//        if (inputStream == null) {
+//            throw new IllegalArgumentException("file not found! " + fileName);
+//        } else {
+//            return inputStream;
+//        }
+        return null;
     }
 
     /**
