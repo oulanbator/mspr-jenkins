@@ -3,10 +3,12 @@ package epsi;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.CodeSource;
 import java.util.List;
 import java.util.Map;
 
@@ -28,24 +30,45 @@ public class Main {
         System.out.println("\nAGENTS : ");
         DataParser.getAgents().forEach(System.out::println);
 
-        System.out.println("\nCOPY IMAGE : ");
+        String decodedPath = "";
         try {
-            File tempFile = File.createTempFile("Durand", ".png");
-            Utils.copyResource("agents/Durand.png", tempFile.getAbsolutePath(), Main.class);
-        } catch (IOException e) {
+            CodeSource source = Main.class.getProtectionDomain().getCodeSource();
+            File jarFile = new File(source.getLocation().toURI().getPath());
+            String directoryPath = jarFile.getParentFile().getPath();
+            decodedPath = URLDecoder.decode(directoryPath, "UTF-8");
+            System.out.println(decodedPath);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
+        Path currentPath = Paths.get("").toAbsolutePath();
+        System.out.println("Current Path : " + currentPath.toString());
+        Path filePath = Paths.get(currentPath.toString(), "target", "test.png");
+        Path targetPath = Paths.get(currentPath.toString(), "test2.png");
+        System.out.println("File Path : " + filePath.toString());
+
+        System.out.println("\nCOPY IMAGE : ");
+        boolean copied = false;
+        try {
+            File sourceFile = new File(filePath.toUri());
+            copied = sourceFile.renameTo(new File(targetPath.toUri()));
+//            File tempFile = File.createTempFile("Durand", ".png");
+//            Utils.copyResource(Paths.get(sourceFile), sourceFile.getAbsolutePath(), Main.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(copied);
+
+
+        // COMMANDES SHELL : POUR REDIRIGER LA SORTIE STANDARD
         //echo "test.txt:Hello" | (read string; path=$(echo $string | cut -d: -f1) ; echo $string | cut -d: -f2 >> $path)
         //echo "test.txt~Hello" | (read string; path=$(echo $string | cut --delimiter=~ -f1) ; echo $string | cut --delimiter=~ -f2 >> $path)
 
+        // DEBUG : Print durand.txt
         // FileReader.print("agents/durand.txt");
         // String file = FileReader.getAsString(fileName);
         // System.out.println(file);
-
-        // Retriever retriever = new Retriever();
-        // Map<String, String> materials = retriever.setMaterials();
-        // System.out.println(materials);
 
 //        Retriever retriever = new Retriever();
 //        retriever.deletePreviousHTML(new File("src/newSite/agents"));
