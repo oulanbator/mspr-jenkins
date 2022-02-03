@@ -19,30 +19,21 @@ import epsi.utils.Utils;
 
 public class Main {
     public static void main(String[] args) {
+        DataParser parser = new DataParser();
         String fileName = "agents/durand.txt";
 
         System.out.println("\nMATERIALS : ");
-        System.out.println(DataParser.getMaterials());
+        System.out.println(parser.getMaterials());
 
         System.out.println("\nSTAFF : ");
-        System.out.println(DataParser.getStaffList());
+        System.out.println(parser.getStaffList());
 
         System.out.println("\nAGENTS : ");
-        DataParser.getAgents().forEach(System.out::println);
+        parser.getAgents().forEach(System.out::println);
 
-        String decodedPath = "";
-        try {
-            CodeSource source = Main.class.getProtectionDomain().getCodeSource();
-            File jarFile = new File(source.getLocation().toURI().getPath());
-            String directoryPath = jarFile.getParentFile().getPath();
-            decodedPath = URLDecoder.decode(directoryPath, "UTF-8");
-            System.out.println(decodedPath);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        Path currentPath = Paths.get("").toAbsolutePath();
+        Path currentPath = Paths.get("").toAbsolutePath(); // current user path (~) in bash
         System.out.println("Current Path : " + currentPath.toString());
         Path filePath = Paths.get(currentPath.toString(), "target", "test.png");
         Path targetPath = Paths.get(currentPath.toString(), "test2.png");
