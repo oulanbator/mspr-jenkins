@@ -1,28 +1,18 @@
 package epsi;
-
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.CodeSource;
 import java.util.List;
-import java.util.Map;
 
 import epsi.services.FileReader;
-import org.apache.commons.lang3.StringUtils;
-
+import epsi.model.Agent;
+import epsi.services.AppBuilder;
 import epsi.services.DataParser;
 import epsi.utils.Utils;
 
 public class Main {
     public static void main(String[] args) {
         DataParser parser = new DataParser();
+        AppBuilder app = new AppBuilder();
 
-        FileReader.print(Utils.getJarAbsolutePath() + "/material.txt");
+        FileReader.printFromAbsolutePath(Utils.getJarAbsolutePath() + "/material.txt");
 
         System.out.println("\nMATERIALS : ");
         System.out.println(parser.getMaterials());
@@ -31,27 +21,31 @@ public class Main {
         System.out.println(parser.getStaffList());
 
         System.out.println("\nAGENTS : ");
-        parser.getAgents().forEach(System.out::println);
+        List<Agent> agents = parser.getAgents();
+        agents.forEach(System.out::println);
 
+        Utils.copyAgentImage(agents.get(0));
 
+        app.buildDirectories(agents);
 
-        Path currentPath = Paths.get("").toAbsolutePath(); // current user path (~) in bash
-        System.out.println("Current Path : " + currentPath.toString());
-        Path filePath = Paths.get(currentPath.toString(), "target", "test.png");
-        Path targetPath = Paths.get(currentPath.toString(), "test2.png");
-        System.out.println("File Path : " + filePath.toString());
+        // COPIE D'IMAGE TEST
+//         Path currentPath = Paths.get("").toAbsolutePath(); // current user path (~) in bash
+//         System.out.println("Current Path : " + currentPath.toString());
+//         Path filePath = Paths.get(currentPath.toString(), "target", "test.png");
+//         Path targetPath = Paths.get(currentPath.toString(), "test2.png");
+//         System.out.println("File Path : " + filePath.toString());
 
-        System.out.println("\nCOPY IMAGE : ");
-        boolean copied = false;
-        try {
-            File sourceFile = new File(filePath.toUri());
-            copied = sourceFile.renameTo(new File(targetPath.toUri()));
-//            File tempFile = File.createTempFile("Durand", ".png");
-//            Utils.copyResource(Paths.get(sourceFile), sourceFile.getAbsolutePath(), Main.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(copied);
+//         System.out.println("\nCOPY IMAGE : ");
+//         boolean copied = false;
+//         try {
+//             File sourceFile = new File(filePath.toUri());
+//             copied = sourceFile.renameTo(new File(targetPath.toUri()));
+// //            File tempFile = File.createTempFile("Durand", ".png");
+// //            Utils.copyResource(Paths.get(sourceFile), sourceFile.getAbsolutePath(), Main.class);
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//         }
+//         System.out.println(copied);
 
 
         // COMMANDES SHELL : POUR REDIRIGER LA SORTIE STANDARD

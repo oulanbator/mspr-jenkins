@@ -2,7 +2,6 @@ package epsi.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +34,7 @@ public class Utils {
         return null;
     }
 
-    public void copyAgentImage(Agent agent) {
+    public static void copyAgentImage(Agent agent) {
         String currentPath = getJarAbsolutePath();
         Path filePath = Paths.get(currentPath, agent.getImageId());
         Path targetPath = Paths.get(currentPath,  "test-image-copy.png");
@@ -49,9 +48,8 @@ public class Utils {
         }
     }
 
-    public static void copyResource(String resource, String destination, Class c) throws IOException {
-        InputStream src = c.getResourceAsStream(resource);
-        Files.copy(src, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+    public static void copyResource(String resource, String destination) throws IOException {
+        Files.copy(Paths.get(resource), Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
     }
 
     public void clearHtmlFolder(File folder) {

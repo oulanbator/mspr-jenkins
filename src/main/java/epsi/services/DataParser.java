@@ -1,23 +1,15 @@
 package epsi.services;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import epsi.model.Agent;
-import epsi.utils.Utils;
 
 import static epsi.utils.Constants.*;
 
 public class DataParser {
-    private String jarAbsolutePath;
-
-    public DataParser() {
-        this.jarAbsolutePath = Utils.getJarAbsolutePath();
-    }
 
     /**
      * Contruit une Map (key: value) du matériel à partir du fichier "materials.txt";
@@ -25,9 +17,7 @@ public class DataParser {
      * @return la Map du matériel
      */
     public Map<String, String> getMaterials() {
-        Path target = Paths.get(jarAbsolutePath, MATERIALS_FILE);
-        System.out.println(target);
-        String content = FileReader.getAsString(target.toString());
+        String content = FileReader.getAsStringFromResourcesPath(MATERIALS_FILE);
         
         Map<String, String> materialsMap = new HashMap<>();
         String[] lines = content.split("\n");
@@ -50,9 +40,7 @@ public class DataParser {
      * @return
      */
     public List<String> getStaffList() {
-        Path target = Paths.get(jarAbsolutePath, STAFF_FILE);
-        System.out.println(target);
-        String content = FileReader.getAsString(target.toString());
+        String content = FileReader.getAsStringFromResourcesPath(STAFF_FILE);
         
         List<String> staff = new ArrayList<>();
         String[] lines = content.split("\n");
@@ -91,7 +79,7 @@ public class DataParser {
     private Agent buildAgent(String name, Map<String, String> materialMap) {
         String filePath = AGENTS_PATH + name + ".txt";
         // Récupère le fichier individuel de l'agent
-        String content = FileReader.getAsString(filePath);
+        String content = FileReader.getAsStringFromResourcesPath(filePath);
         String[] lines = content.split("\n");
 
         // Parse les informations de l'agent
