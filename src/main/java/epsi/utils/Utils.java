@@ -37,7 +37,7 @@ public class Utils {
     }
 
     public static void copyAgentImage(Agent agent) {
-        Path sourcePath = Paths.get(SRC_TO_RESOURCES_PATH, "repo", agent.getImageId());
+        Path sourcePath = Paths.get(getJarAbsolutePath(), agent.getImageId());
         File targetFile = Paths.get(getJarAbsolutePath(), ROOT, AGENTS, agent.getAgentUniqueId(), agent.getImageId()).toFile();
         copyImage(sourcePath, targetFile);
     }
