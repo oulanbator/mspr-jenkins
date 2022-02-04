@@ -43,14 +43,24 @@ public class Utils {
     }
 
     public static void copyLogo() {
-        Path sourcePath = Paths.get("/logo.png");
+        InputStream stream = Utils.class.getResourceAsStream("/logo.png");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
         File targetFile = Paths.get(getJarAbsolutePath(), ROOT, IMG, "logo.png").toFile();
-        copyImage(sourcePath, targetFile);
+        try {
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(stream.readAllBytes());
+            outStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void copyImage(Path sourcePath, File targetFile) {
         try {
-            byte[] buffer = buffer = Files.readAllBytes(sourcePath);
+            byte[] buffer = Files.readAllBytes(sourcePath);
             OutputStream outStream = new FileOutputStream(targetFile);
             outStream.write(buffer);
             outStream.close();
