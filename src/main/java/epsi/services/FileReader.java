@@ -1,11 +1,14 @@
 package epsi.services;
 
+import epsi.utils.Utils;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class FileReader {
 
-    public static String getAsStringFromAbsolutePath(String fullFilePath) {
+    public static String getAsStringFromRelativePath(String filePath) {
+        String fullFilePath = Utils.getJarAbsolutePath() + "/" + filePath;
         // TODO : surement moyen de simplifier cette méthode
         String fileContent = "";
         try {
@@ -57,10 +60,10 @@ public class FileReader {
      * Méthode utilitaire pour débug. Permet de print un fichier et de vérifier que le chemin
      * passé en paramètre est valide.
      * 
-     * @param absoluteFilePath chemin absolu vers le fichier 
+     * @param filePath chemin absolu vers le fichier
      */
-    public static void printFromAbsolutePath(String absoluteFilePath) {
-        String file = getAsStringFromAbsolutePath(absoluteFilePath);
+    public static void printFromRelativePath(String filePath) {
+        String file = getAsStringFromRelativePath(filePath);
         System.out.println(file);
     }
     

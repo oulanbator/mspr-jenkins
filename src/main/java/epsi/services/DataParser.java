@@ -17,7 +17,7 @@ public class DataParser {
      * @return la Map du matériel
      */
     public Map<String, String> getMaterials() {
-        String content = FileReader.getAsStringFromResourcesPath(MATERIALS_FILE);
+        String content = FileReader.getAsStringFromRelativePath(MATERIALS_FILE);
         
         Map<String, String> materialsMap = new HashMap<>();
         String[] lines = content.split("\n");
@@ -40,7 +40,7 @@ public class DataParser {
      * @return
      */
     public List<String> getStaffList() {
-        String content = FileReader.getAsStringFromResourcesPath(STAFF_FILE);
+        String content = FileReader.getAsStringFromRelativePath(STAFF_FILE);
         
         List<String> staff = new ArrayList<>();
         String[] lines = content.split("\n");
@@ -79,7 +79,7 @@ public class DataParser {
     private Agent buildAgent(String name, Map<String, String> materialMap) {
         String filePath = REPO_PATH + name + ".txt";
         // Récupère le fichier individuel de l'agent
-        String content = FileReader.getAsStringFromResourcesPath(filePath);
+        String content = FileReader.getAsStringFromRelativePath(filePath);
         String[] lines = content.split("\n");
 
         // Parse les informations de l'agent
