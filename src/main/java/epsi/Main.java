@@ -3,14 +3,14 @@ import java.util.List;
 
 import epsi.services.FileReader;
 import epsi.model.Agent;
-import epsi.services.AppBuilder;
+import epsi.services.Generator;
 import epsi.services.DataParser;
 import epsi.utils.Utils;
 
 public class Main {
     public static void main(String[] args) {
         DataParser parser = new DataParser();
-        AppBuilder app = new AppBuilder();
+        Generator app = new Generator();
 
         FileReader.printFromAbsolutePath(Utils.getJarAbsolutePath() + "/material.txt");
 
@@ -26,7 +26,8 @@ public class Main {
 
         Utils.copyAgentImage(agents.get(0));
 
-        app.buildDirectories(agents);
+        app.buildDirectories();
+        app.buildIndex(agents);
 
         // COPIE D'IMAGE TEST
 //         Path currentPath = Paths.get("").toAbsolutePath(); // current user path (~) in bash

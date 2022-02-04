@@ -17,9 +17,9 @@
 
 //         System.setOut(new PrintStream(path + "/index.html"));
 
-//         StringBuilder content = new StringBuilder(Files.readString(Path.of("src/template/agent/1.txt")));
+//         StringBuilder content = new StringBuilder(Files.readString(Path.of("src/template/agent/part1.txt")));
 //         content.append(agent.prenom).append(" ").append(agent.nom);
-//         content.append(Files.readString(Path.of("src/template/agent/3.txt")));
+//         content.append(Files.readString(Path.of("src/template/agent/part3.txt")));
 
 //         for (String key: materialsMap.keySet()){
 //             String checked = "";
