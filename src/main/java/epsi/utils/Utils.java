@@ -1,7 +1,6 @@
 package epsi.utils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +10,9 @@ import java.security.CodeSource;
 
 import epsi.Main;
 import epsi.model.Agent;
+import epsi.services.FileReader;
+
+import static epsi.utils.Constants.*;
 
 public class Utils {
 
@@ -31,18 +33,27 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return absoluteDecodedPath;
     }
 
     public static void copyAgentImage(Agent agent) {
-        String currentPath = getJarAbsolutePath();
-        Path filePath = Paths.get(currentPath, agent.getImageId());
-        Path targetPath = Paths.get(currentPath,  "test-image-copy.png");
-//        Path originalPath = Path.of(Constants.AGENTS_PATH + agent.getImageId());
-//        Path copied = Paths.get(Constants.AGENTS_PATH + agent.getAgentUniqueId() + "/" + agent.getImageId());
+        Path sourcePath = Paths.get(SRC_TO_RESOURCES_PATH, "repo", agent.getImageId());
+        File targetFile = Paths.get(getJarAbsolutePath(), ROOT, AGENTS, agent.getAgentUniqueId(), agent.getImageId()).toFile();
+        copyImage(sourcePath, targetFile);
+    }
+
+    public static void copyLogo() {
+        Path sourcePath = Paths.get(SRC_TO_RESOURCES_PATH, "logo.png");
+        File targetFile = Paths.get(getJarAbsolutePath(), ROOT, IMG, "logo.png").toFile();
+        copyImage(sourcePath, targetFile);
+    }
+
+    public static void copyImage(Path sourcePath, File targetFile) {
         try {
-            Files.copy(filePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Image copied success !!");
+            byte[] buffer = buffer = Files.readAllBytes(sourcePath);
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
+            outStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,5 +76,19 @@ public class Utils {
                 f.delete();
             }
         }
+    }
+
+    // TODO : DEPLACER DANS UTILS ?
+    public static void redirectStdout(File target) {
+        try {
+            System.setOut(new PrintStream(target));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static StringBuilder appendFileContent(StringBuilder content, String fileResourcePath) {
+        String newContent = FileReader.getAsStringFromResourcesPath(fileResourcePath);
+        return content.append(newContent);
     }
 }

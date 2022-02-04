@@ -77,7 +77,7 @@ public class DataParser {
      * @return un Agent
      */
     private Agent buildAgent(String name, Map<String, String> materialMap) {
-        String filePath = AGENTS_PATH + name + ".txt";
+        String filePath = REPO_PATH + name + ".txt";
         // Récupère le fichier individuel de l'agent
         String content = FileReader.getAsStringFromResourcesPath(filePath);
         String[] lines = content.split("\n");

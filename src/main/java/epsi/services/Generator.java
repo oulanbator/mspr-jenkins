@@ -2,25 +2,21 @@ package epsi.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import epsi.model.Agent;
 import epsi.utils.Utils;
 
+import static epsi.utils.Constants.*;
+import static epsi.utils.Utils.appendFileContent;
+import static epsi.utils.Utils.redirectStdout;
 import static java.lang.System.out;
 
 public class Generator {
     private String jarCurrentPath;
-    
-    private final String ROOT = "gosecuri";
-    private final String AGENTS = "agents";
-    private final String IMG = "img";
-    private final String CSS = "css";
 
     public Generator() {
         this.jarCurrentPath = Utils.getJarAbsolutePath();
@@ -43,44 +39,80 @@ public class Generator {
     }
 
     public void buildIndex(List<Agent> agents) {
-        // Get absolute path
-        File index = Paths.get(jarCurrentPath, ROOT, "index.html").toFile();
-        // Redirect stdout to file
-        try {
-            System.setOut(new PrintStream(index));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // Redirect stdout to index target file
+        File target = Paths.get(jarCurrentPath, ROOT, "index.html").toFile();
+        redirectStdout(target);
+
         // build content
         StringBuilder content = new StringBuilder();
         content = appendFileContent(content, "template/index/part1.txt");
         for (Agent agent : agents) {
-            content.append("<li><a href=\"agents/")
+            content.append("        <li><a href=\"agents/")
                     .append(agent.getAgentUniqueId())
                     .append("/index.html\">")
-                    .append(agent.getNom())
-                    .append(" ")
                     .append(agent.getPrenom())
-                    .append("</a></li>");
+                    .append(" ")
+                    .append(agent.getNom())
+                    .append("</a></li>\n");
         }
         content = appendFileContent(content, "template/index/part3.txt");
+
         // Print file
         out.println(content);
     }
 
-    private StringBuilder appendFileContent(StringBuilder content, String fileResourcePath) {
-        try {
-            return content.append(Files.readString(Path.of(fileResourcePath)));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new StringBuilder(); // est-ce qu'on veut renvoyer un new StringBuilder en cas d'erreur ?
+    public void buildFichesAgents(Agent agent, Map<String, String> materialsMap) {
+        // Build agent dir
+        File agentDir = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId()).toFile();
+        agentDir.mkdirs();
+
+        // Redirect stdout to target agent index
+        File target = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId(), "index.html").toFile();
+        redirectStdout(target);
+
+        // Build content
+        StringBuilder content = new StringBuilder();
+        content = appendFileContent(content, "template/agent/part1.txt");
+        content.append(agent.getPrenom())
+                .append(" ")
+                .append(agent.getNom());
+        content = appendFileContent(content, "template/agent/part3.txt");
+
+        // Loop on material
+        for (String key: materialsMap.keySet()){
+            String checked = "";
+            if(agent.getMateriaux().contains(materialsMap.get(key))){
+                checked = "checked";
+            }
+            content.append("<div class=\"form-check\">\n")
+                    .append("<input class=\"form-check-input\" type=\"checkbox\" value=\"\" id=\"" + key + "\" ")
+                    .append(checked).append(">\n")
+                    .append("<label class=\"form-check-label\" for=\"")
+                    .append(key).append("\">\n")
+                    .append(materialsMap.get(key)).append("\n")
+                    .append("</label>\n")
+                    .append("</div>");
         }
+
+        content = appendFileContent(content, "template/agent/part5.txt");
+        content.append(agent.getImageId());
+        content = appendFileContent(content, "template/agent/part7.txt");
+
+        // Print file
+        out.println(content);
     }
 
-    public void buildAgents(List<Agent> agents) {
-        for (Agent agent : agents) {
-            File agentDir = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId()).toFile();
-            agentDir.mkdirs();
-        }
+    public void buildCss() {
+        // Redirect stdout to target css file
+        File target = Paths.get(jarCurrentPath, ROOT, CSS, "style.css").toFile();
+        redirectStdout(target);
+
+        // Build content
+        StringBuilder content = new StringBuilder();
+        content = appendFileContent(content, "template/css.txt");
+
+        // Print file
+        out.println(content);
     }
+
 }

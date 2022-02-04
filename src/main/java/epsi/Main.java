@@ -1,18 +1,21 @@
 package epsi;
 import java.util.List;
+import java.util.Map;
 
 import epsi.services.FileReader;
 import epsi.model.Agent;
 import epsi.services.Generator;
 import epsi.services.DataParser;
 import epsi.utils.Utils;
+import jdk.jshell.execution.Util;
 
 public class Main {
     public static void main(String[] args) {
         DataParser parser = new DataParser();
         Generator app = new Generator();
 
-        FileReader.printFromAbsolutePath(Utils.getJarAbsolutePath() + "/material.txt");
+//        FileReader.printFromAbsolutePath(Utils.getJarAbsolutePath() + "/material.txt");
+//        FileReader.printFromResourcesPath("template/index/part1.txt");
 
         System.out.println("\nMATERIALS : ");
         System.out.println(parser.getMaterials());
@@ -24,10 +27,17 @@ public class Main {
         List<Agent> agents = parser.getAgents();
         agents.forEach(System.out::println);
 
-        Utils.copyAgentImage(agents.get(0));
+//        Utils.copyAgentImage(agents.get(0));
 
         app.buildDirectories();
         app.buildIndex(agents);
+        app.buildCss();
+        Utils.copyLogo();
+        Map<String, String> materials = parser.getMaterials();
+        for(Agent agent : agents) {
+            app.buildFichesAgents(agent, materials);
+            Utils.copyAgentImage(agent);
+        }
 
         // COPIE D'IMAGE TEST
 //         Path currentPath = Paths.get("").toAbsolutePath(); // current user path (~) in bash
