@@ -43,7 +43,7 @@ public class Utils {
     }
 
     public static void copyLogo() {
-        Path sourcePath = Paths.get(SRC_TO_RESOURCES_PATH, "logo.png");
+        Path sourcePath = Paths.get("/logo.png");
         File targetFile = Paths.get(getJarAbsolutePath(), ROOT, IMG, "logo.png").toFile();
         copyImage(sourcePath, targetFile);
     }
