@@ -37,7 +37,7 @@ public class Main {
         for(Agent agent : agents) {
             app.buildFichesAgents(agent, materials);
             app.buildHtaccess(agent);
-            app.buildHtaccess(agent);
+            app.buildHtpasswd(agent);
             Utils.copyAgentImage(agent);
         }
 
