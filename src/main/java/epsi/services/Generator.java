@@ -142,7 +142,7 @@ public class Generator {
         // get encoded password
         String encodedPwd = "";
         try {
-            encodedPwd = Md5Hasher.getHash(agent.getMdp());
+            encodedPwd = "$apr1$" + Md5Hasher.getHash(agent.getAgentUniqueId(), agent.getMdp());
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
