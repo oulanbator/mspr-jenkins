@@ -65,7 +65,7 @@ public class Generator {
         out.println(content);
     }
 
-    public void buildFichesAgents(Agent agent, Map<String, String> materialsMap) {
+    public void buildFicheAgent(Agent agent, Map<String, String> materialsMap) {
         // Build agent dir
         File agentDir = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId()).toFile();
         agentDir.mkdirs();
@@ -141,11 +141,6 @@ public class Generator {
 
         // get encoded password
         String encodedPwd = "";
-//        try {
-//            encodedPwd = "$apr1$" + Md5Hasher.getHash(agent.getAgentUniqueId(), agent.getMdp());
-//        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
         try {
             encodedPwd = "{SHA}" + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA1").digest(agent.getMdp().getBytes()));
         } catch (NoSuchAlgorithmException e) {
