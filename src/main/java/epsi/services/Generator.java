@@ -127,7 +127,7 @@ public class Generator {
         // Build content
         StringBuilder content = new StringBuilder();
         content = appendFileContent(content, "template/htaccess/part1.txt");
-        content.append("AuthUserFile /var/www/html/agents/" + agent.getAgentUniqueId() + "/.htpasswd");
+        content.append("AuthUserFile /var/www/html/agents/" + agent.getAgentUniqueId() + "/.htpasswd\n");
         content = appendFileContent(content, "template/htaccess/part3.txt");
 
         // Print file
