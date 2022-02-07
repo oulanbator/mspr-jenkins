@@ -1,25 +1,21 @@
-node {
-    stage("CleanWorkspace") {
-        sh '''
-        ls
-        cd ..
-        ls
-        '''
-    }
-    stage("CloneRepos") {
-        sh '''
+pipeline {
+    agent any
 
-        '''
-    }
-    stage("Build") {
-        sh '''
-        ls
-        tree .
-        '''
-    }
-    stage("Artifact") {
-        sh '''
-
-        '''
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
     }
 }
