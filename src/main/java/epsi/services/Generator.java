@@ -1,9 +1,12 @@
 package epsi.services;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +14,6 @@ import epsi.model.Agent;
 import epsi.utils.Utils;
 
 import static epsi.utils.Constants.*;
-import static epsi.utils.Utils.appendFileContent;
 import static epsi.utils.Utils.redirectStdout;
 import static java.lang.System.out;
 
@@ -113,6 +115,50 @@ public class Generator {
 
         // Print file
         out.println(content);
+    }
+
+    public void buildHtaccess(Agent agent) {
+        // Redirect stdout to target css file
+        File target = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId(), ".htaccess").toFile();
+        redirectStdout(target);
+
+        // Build content
+        StringBuilder content = new StringBuilder();
+        content = appendFileContent(content, "template/htaccess/part1.txt");
+        content.append(agent.getAgentUniqueId());
+        content = appendFileContent(content, "template/htaccess/part3.txt");
+
+        // Print file
+        out.println(content);
+    }
+
+    public void buildHtpasswd(Agent agent) {
+        // Redirect stdout to target css file
+        File target = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId(), ".htpasswd").toFile();
+        redirectStdout(target);
+
+        // get encoded password
+        String encodedPwd = "";
+        try {
+            String base64encoded = Arrays.toString(Base64.getEncoder().encode(MessageDigest.getInstance("SHA1").digest(agent.getMdp().getBytes(StandardCharsets.UTF_8))));
+            encodedPwd = "{SHA}" + base64encoded;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        // Build content
+        StringBuilder content = new StringBuilder();
+        content.append(agent.getAgentUniqueId())
+                .append(":")
+                .append(encodedPwd);
+
+        // Print file
+        out.println(content);
+    }
+
+    public static StringBuilder appendFileContent(StringBuilder content, String fileResourcePath) {
+        String newContent = FileReader.getAsStringFromResourcesPath(fileResourcePath);
+        return content.append(newContent);
     }
 
 }

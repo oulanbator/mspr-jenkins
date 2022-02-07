@@ -36,12 +36,6 @@ public class Utils {
         return absoluteDecodedPath;
     }
 
-    public static void copyAgentImage(Agent agent) {
-        Path sourcePath = Paths.get(getJarAbsolutePath(), agent.getImageId());
-        File targetFile = Paths.get(getJarAbsolutePath(), ROOT, AGENTS, agent.getAgentUniqueId(), agent.getImageId()).toFile();
-        copyImage(sourcePath, targetFile);
-    }
-
     public static void copyLogo() {
         InputStream stream = Utils.class.getResourceAsStream("/logo.png");
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -58,6 +52,12 @@ public class Utils {
         }
     }
 
+    public static void copyAgentImage(Agent agent) {
+        Path sourcePath = Paths.get(getJarAbsolutePath(), agent.getImageId());
+        File targetFile = Paths.get(getJarAbsolutePath(), ROOT, AGENTS, agent.getAgentUniqueId(), agent.getImageId()).toFile();
+        copyImage(sourcePath, targetFile);
+    }
+
     public static void copyImage(Path sourcePath, File targetFile) {
         try {
             byte[] buffer = Files.readAllBytes(sourcePath);
@@ -69,36 +69,11 @@ public class Utils {
         }
     }
 
-    public static void copyResource(String resource, String destination) throws IOException {
-        Files.copy(Paths.get(resource), Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
-    }
-
-    public void clearHtmlFolder(File folder) {
-        File[] files = folder.listFiles();
-        if(files!=null) {
-            for(File f: files) {
-                if(f.isDirectory()) {
-                    File[] underFiles = f.listFiles();
-                    for (File underFile: underFiles){
-                        underFile.delete();
-                    }
-                }
-                f.delete();
-            }
-        }
-    }
-
-    // TODO : DEPLACER DANS UTILS ?
     public static void redirectStdout(File target) {
         try {
             System.setOut(new PrintStream(target));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public static StringBuilder appendFileContent(StringBuilder content, String fileResourcePath) {
-        String newContent = FileReader.getAsStringFromResourcesPath(fileResourcePath);
-        return content.append(newContent);
     }
 }
