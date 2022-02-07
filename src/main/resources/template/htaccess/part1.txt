@@ -1,2 +1,2 @@
-AuthName "Fiche agent protégée, veuillez vous identifier"
+AuthName "gosecuri"
 AuthType Basic
