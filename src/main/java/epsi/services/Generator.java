@@ -1,6 +1,7 @@
 package epsi.services;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import epsi.model.Agent;
+import epsi.utils.Md5Hasher;
 import epsi.utils.Utils;
 
 import static epsi.utils.Constants.*;
@@ -140,9 +142,8 @@ public class Generator {
         // get encoded password
         String encodedPwd = "";
         try {
-            String base64encoded = Arrays.toString(Base64.getEncoder().encode(MessageDigest.getInstance("SHA1").digest(agent.getMdp().getBytes(StandardCharsets.UTF_8))));
-            encodedPwd = "{SHA}" + base64encoded;
-        } catch (NoSuchAlgorithmException e) {
+            encodedPwd = Md5Hasher.getHash(agent.getMdp());
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
