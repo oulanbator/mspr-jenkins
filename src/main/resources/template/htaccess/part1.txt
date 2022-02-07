@@ -1,2 +1,2 @@
-AuthName "gosecuri"
+AuthName gosecuri
 AuthType Basic
