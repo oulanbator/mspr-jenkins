@@ -7,7 +7,7 @@ public class Md5Hasher {
 
     public static String getHash(String user, String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException  {
-        String realm = "gosecuri";
+        String realm = "Top secret";
 
         byte b[] = java.security.MessageDigest.getInstance("MD5").digest( (user + ":" + realm + ":" + password).getBytes());
         java.math.BigInteger bi = new java.math.BigInteger(1, b);
