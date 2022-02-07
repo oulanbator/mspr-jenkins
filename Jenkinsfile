@@ -1,6 +1,11 @@
 node {
     stage("CleanWorkspace") {
-        sh "rm -r *"
+        sh '''
+        rm -r *
+        ls
+        cd ..
+        ls
+        '''
     }
     stage("CloneRepos") {
         sh '''
