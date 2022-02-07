@@ -1,18 +1,14 @@
 package epsi.services;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
 import epsi.model.Agent;
-import epsi.utils.Md5Hasher;
 import epsi.utils.Utils;
 
 import static epsi.utils.Constants.*;

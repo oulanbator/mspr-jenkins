@@ -7,8 +7,6 @@ public class Constants {
     public static final String IMG = "img";
     public static final String CSS = "css";
 
-    public static final String SRC_TO_RESOURCES_PATH = "src/main/resources";
-    public static final String REPO_PATH = "repo/";
     public static final String MATERIALS_FILE = "material.txt";
     public static final String STAFF_FILE = "staff.txt";
 }
