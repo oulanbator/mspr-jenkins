@@ -1,3 +1,2 @@
 AuthName "Fiche agent protégée, veuillez vous identifier"
 AuthType Basic
-AuthUserFile /var/www/html/agents/
