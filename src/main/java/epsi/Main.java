@@ -13,19 +13,19 @@ public class Main {
     public static void main(String[] args) {
         DataParser parser = new DataParser();
         Generator app = new Generator();
+        List<Agent> agents = parser.getAgents();
 
 //        FileReader.printFromAbsolutePath(Utils.getJarAbsolutePath() + "/material.txt");
 //        FileReader.printFromResourcesPath("template/index/part1.txt");
 
-        System.out.println("\nMATERIALS : ");
-        System.out.println(parser.getMaterials());
-
-        System.out.println("\nSTAFF : ");
-        System.out.println(parser.getStaffList());
-
-        System.out.println("\nAGENTS : ");
-        List<Agent> agents = parser.getAgents();
-        agents.forEach(System.out::println);
+//        System.out.println("\nMATERIALS : ");
+//        System.out.println(parser.getMaterials());
+//
+//        System.out.println("\nSTAFF : ");
+//        System.out.println(parser.getStaffList());
+//
+//        System.out.println("\nAGENTS : ");
+//        agents.forEach(System.out::println);
 
 //        Utils.copyAgentImage(agents.get(0));
 
@@ -36,6 +36,8 @@ public class Main {
         Map<String, String> materials = parser.getMaterials();
         for(Agent agent : agents) {
             app.buildFichesAgents(agent, materials);
+            app.buildHtaccess(agent);
+            app.buildHtaccess(agent);
             Utils.copyAgentImage(agent);
         }
 
