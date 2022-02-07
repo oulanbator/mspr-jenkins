@@ -1,7 +1,6 @@
 node {
     stage("CleanWorkspace") {
         sh '''
-        rm -r *
         ls
         cd ..
         ls
