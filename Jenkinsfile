@@ -4,11 +4,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                echo 'Building..'
                 sh '''
-                ls
+                git branch
+                mvn clean package
                 tree .
                 '''
-                echo 'Building..'
             }
         }
         stage('Test') {
@@ -16,9 +17,12 @@ pipeline {
                 echo 'Testing..'
             }
         }
-        stage('Deploy') {
+        stage('Rename') {
             steps {
                 echo 'Deploying....'
+                sh '''
+                cp target/*-jar-with-dependencies.jar target/generator.jar
+                '''
             }
         }
     }
