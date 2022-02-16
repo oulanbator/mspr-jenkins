@@ -19,8 +19,8 @@ public class Agent {
         this.materiaux = materiaux;
         this.prenom = StringUtils.capitalize(prenom.toLowerCase());
         this.nom = StringUtils.capitalize(nom.toLowerCase());
-        this.imageId = this.nom + ".png";
         this.agentUniqueId = this.prenom.substring(0,1).toLowerCase() + this.nom ;
+        this.imageId = this.agentUniqueId + ".png";
     }
 
     // GETTERS & SETTERS

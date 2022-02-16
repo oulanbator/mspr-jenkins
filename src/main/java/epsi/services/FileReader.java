@@ -21,6 +21,7 @@ public class FileReader {
         } catch(Exception e) {
             e.printStackTrace();
         }
+        fileContent = fileContent.replace("\r", "");
         return fileContent;
     }
 
@@ -53,6 +54,7 @@ public class FileReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        fileContent = fileContent.replace("\r", "");
         return fileContent;
     }
     
