@@ -9,7 +9,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps{
-                withSonarQubeEnv('ScanDuJAVA') {
+                withSonarQubeEnv('MSPR_Jenkins') {
                 sh 'mvn clean verify sonar:sonar'
                 }
             }
