@@ -9,7 +9,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps{
-                withSonarQubeEnv() {
+                withSonarQubeEnv('ScanDuJAVA') {
                 sh 'mvn clean verify sonar:sonar'
                 }
             }
