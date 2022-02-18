@@ -12,9 +12,8 @@ pipeline {
                 def mvn = tool 'Maven3.6';
                 withSonarQubeEnv() {
                 sh "${mvn}/bin/mvn clean verify sonar:sonar"
-    }
-  }
-            }
+                }
+              }
         }
         stage('Build') {
             steps {
