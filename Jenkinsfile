@@ -9,7 +9,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps{
-                withSonarQubeEnv() {
+                withSonarQubeEnv('scanner') {
                 sh 'mvn clean verify sonar:sonar'
                 }
               }
