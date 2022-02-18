@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('SCM') {
             steps{
-            checkout scm
+                checkout scm
             }
         }
         stage('SonarQube Analysis') {
             steps{
-            withSonarQubeEnv() {
-            sh 'mvn clean verify sonar:sonar'
-            }
+                withSonarQubeEnv() {
+                sh 'mvn clean verify sonar:sonar'
+                }
             }
         }
         stage('Build') {
