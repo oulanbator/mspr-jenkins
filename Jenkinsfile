@@ -14,6 +14,11 @@ pipeline {
                 }
               }
         }
+        stage('Reports') {
+            steps{
+            junit allowEmptyResults: true, skipPublishingChecks: true, testResults: '*/target/-reports/*.xml'
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building....'
