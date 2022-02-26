@@ -10,24 +10,30 @@ import epsi.utils.Utils;
 public class Main {
     public static void main(String[] args) {
         DataParser parser = new DataParser();
-        Generator app = new Generator();
 
         List<Agent> agents = parser.getAgents();
         Map<String, String> materials = parser.getMaterials();
 
+
+        Thread thread = new Thread(() -> generateWebFiles(agents, materials));
+        thread.start();
+    }
+
+    private static void generateWebFiles(List<Agent> agents, Map<String, String> materials){
+        Generator generator = new Generator();
+
         // Build app
-        app.buildDirectories();
-        app.buildIndex(agents);
-        app.buildCss();
+        generator.buildDirectories();
+        generator.buildIndex(agents);
+        generator.buildCss();
         Utils.copyLogo();
 
         for(Agent agent : agents) {
-            app.buildFicheAgent(agent, materials);
-            app.buildHtaccess(agent);
-            app.buildHtpasswd(agent);
+            generator.buildFicheAgent(agent, materials);
+            generator.buildHtaccess(agent);
+            generator.buildHtpasswd(agent);
             Utils.copyAgentImage(agent);
         }
-
     }
 
 }
