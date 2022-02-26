@@ -26,6 +26,7 @@ public class Main {
         generator.buildDirectories();
         generator.buildIndex(agents);
         generator.buildCss();
+        generator.build401();
         Utils.copyLogo();
 
         for(Agent agent : agents) {

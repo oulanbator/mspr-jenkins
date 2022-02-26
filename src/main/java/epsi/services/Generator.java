@@ -38,6 +38,30 @@ public class Generator {
         System.out.println("Build directories success !");
     }
 
+
+    public void build401(){
+        // Redirect stdout to 401 error target file
+        File target = Paths.get(jarCurrentPath, ROOT, "401.html").toFile();
+        redirectStdout(target);
+
+        //build content
+        StringBuilder content = new StringBuilder();
+        content.append("<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "<meta http-equiv=\"refresh\" content=\"3;url=../../index.html\" />" +
+                "    <title>Error 401</title>\n" +
+                "    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3\" crossorigin=\"anonymous\">\n" +
+                "</head><body>");
+        content.append("\n\n");
+        content.append("Désolé mais l'accès à cette section necessite une authentification :(\n");
+        content.append("Vous allez être redirigé d'ici quelques instant vers la page d'accueil");
+
+        out.println(content);
+    }
+
+
     public void buildIndex(List<Agent> agents) {
         // Redirect stdout to index target file
         File target = Paths.get(jarCurrentPath, ROOT, "index.html").toFile();
@@ -129,6 +153,7 @@ public class Generator {
         // Print file
         out.println(content);
     }
+
 
     public void buildHtpasswd(Agent agent) {
         // Redirect stdout to target css file
