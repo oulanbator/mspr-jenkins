@@ -1,1 +1,2 @@
 require valid-user
+ErrorDocument 401 /401.html
