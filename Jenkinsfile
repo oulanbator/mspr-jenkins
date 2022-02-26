@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo 'Building....'
                 sh '''
-                git branch
+                git checkout origin/victor
                 mvn clean package
                 tree .
                 '''
