@@ -53,10 +53,10 @@ public class Generator {
                 "<meta http-equiv=\"refresh\" content=\"3;url=../../index.html\" />" +
                 "    <title>Error 401</title>\n" +
                 "    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3\" crossorigin=\"anonymous\">\n" +
-                "</head><body>");
-        content.append("\n\n");
-        content.append("Désolé mais l'accès à cette section necessite une authentification :(\n");
-        content.append("Vous allez être redirigé d'ici quelques instant vers la page d'accueil");
+                "</head><body>")
+                .append("\n\n")
+                .append("Désolé mais l'accès à cette section necessite une authentification :(\n")
+                .append("Vous allez être redirigé d'ici quelques instant vers la page d'accueil");
 
         out.println(content);
     }
