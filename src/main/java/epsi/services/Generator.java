@@ -1,6 +1,8 @@
 package epsi.services;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -34,8 +36,6 @@ public class Generator {
         // build css dir
         File cssDir = Paths.get(jarCurrentPath, ROOT, CSS).toFile();
         cssDir.mkdirs();
-
-        System.out.println("Build directories success !");
     }
 
 
@@ -90,9 +90,8 @@ public class Generator {
         File agentDir = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId()).toFile();
         agentDir.mkdirs();
 
-        // Redirect stdout to target agent index
+        // Build file path to target agent index
         File target = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId(), "index.html").toFile();
-        redirectStdout(target);
 
         // Build content
         StringBuilder content = new StringBuilder();
@@ -123,7 +122,14 @@ public class Generator {
         content = appendFileContent(content, "template/agent/part7.txt");
 
         // Print file
-        out.println(content);
+        try {
+            FileWriter fileWriter = new FileWriter(target);
+            fileWriter.write(content.toString());
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void buildCss() {

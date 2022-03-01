@@ -7,13 +7,11 @@
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-
-    <nav class="w-100 row d-flex justify-content-start align-content-center">
-        <img class=" ms-3" src="../../img/logo.png" style="height: 60px; width: 180px;">
-
-        <a href="../../index.html" class="btn btn-primary mt-2" style="width: 150px; height: 40px; background: #379EC1; border: 1px solid white;">
-            Retour à l'accueil
-        </a>
+    <nav class="w-100">
+        <img class="mt-2 ms-3" src="../../img/logo.png" height="60" width="110">
     </nav>
+    <a href="../../index.html" class="btn btn-primary mt-2 ms-3" style="width: 150px; height: 40px; background: #379EC1; border: 1px solid white;">
+        Retour à l'accueil
+    </a>
 
     <h1 class="ms-5 mt-5">

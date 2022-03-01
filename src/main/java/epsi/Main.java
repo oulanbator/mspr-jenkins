@@ -14,9 +14,7 @@ public class Main {
         List<Agent> agents = parser.getAgents();
         Map<String, String> materials = parser.getMaterials();
 
-
-        Thread thread = new Thread(() -> generateWebFiles(agents, materials));
-        thread.start();
+        generateWebFiles(agents, materials);
     }
 
     private static void generateWebFiles(List<Agent> agents, Map<String, String> materials){
@@ -29,12 +27,19 @@ public class Main {
         generator.build401();
         Utils.copyLogo();
 
+        // Build agents folders (threaded)
         for(Agent agent : agents) {
-            generator.buildFicheAgent(agent, materials);
-            generator.buildHtaccess(agent);
-            generator.buildHtpasswd(agent);
-            Utils.copyAgentImage(agent);
+            Thread thread = new Thread(() -> buildAgentFolder(agent, materials));
+            thread.start();
         }
+    }
+
+    private static void buildAgentFolder(Agent agent, Map<String, String> materials) {
+        Generator generator = new Generator();
+        generator.buildFicheAgent(agent, materials);
+        generator.buildHtaccess(agent);
+        generator.buildHtpasswd(agent);
+        Utils.copyAgentImage(agent);
     }
 
 }
