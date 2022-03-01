@@ -28,6 +28,10 @@ public class Main {
         Utils.copyLogo();
 
         // Build agents folders (threaded)
+        buildAgentsFolders(agents, materials);
+    }
+
+    private static void buildAgentsFolders(List<Agent> agents, Map<String, String> materials) {
         for(Agent agent : agents) {
             Thread thread = new Thread(() -> buildAgentFolder(agent, materials));
             thread.start();

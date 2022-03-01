@@ -172,8 +172,10 @@ public class Generator {
 
         // get encoded password
         String encodedPwd = "";
+        String encodedAdminPwd = "";
         try {
             encodedPwd = "{SHA}" + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA1").digest(agent.getMdp().getBytes()));
+            encodedAdminPwd = "{SHA}" + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA1").digest("admin".getBytes()));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -182,7 +184,12 @@ public class Generator {
         StringBuilder content = new StringBuilder();
         content.append(agent.getAgentUniqueId())
                 .append(":")
-                .append(encodedPwd);
+                .append(encodedPwd)
+                .append("\n");
+        content.append("admin")
+                .append(":")
+                .append(encodedAdminPwd)
+                .append("\n");
 
         // Print file
         try {
