@@ -1,28 +1,41 @@
 package epsi;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
+import epsi.model.Agent;
+import epsi.services.Generator;
+import epsi.services.DataParser;
+import epsi.utils.Utils;
 
 public class Main {
     public static void main(String[] args) {
-        Retriever retriever = new Retriever();
-        retriever.deletePreviousHTML(new File("src/newSite/agents"));
-        try {
-            retriever.setMaterials();
+        DataParser parser = new DataParser();
 
-            List<Agent> agents = retriever.tratAllagentes();
-            for(Agent agent : agents){
-                Generator.setFiche(agent, retriever.materialsMap);
-                retriever.uploadIDimage(agent);
-            }
-            Generator.setIndex(agents);
-            Generator.setHtaccess(agents);
-            Generator.setHtpassword(agents);
+        List<Agent> agents = parser.getAgents();
+        Map<String, String> materials = parser.getMaterials();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        Thread thread = new Thread(() -> generateWebFiles(agents, materials));
+        thread.start();
+    }
+
+    private static void generateWebFiles(List<Agent> agents, Map<String, String> materials){
+        Generator generator = new Generator();
+
+        // Build app
+        generator.buildDirectories();
+        generator.buildIndex(agents);
+        generator.buildCss();
+        generator.build401();
+        Utils.copyLogo();
+
+        for(Agent agent : agents) {
+            generator.buildFicheAgent(agent, materials);
+            generator.buildHtaccess(agent);
+            generator.buildHtpasswd(agent);
+            Utils.copyAgentImage(agent);
         }
     }
+
 }
 
