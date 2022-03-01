@@ -146,9 +146,8 @@ public class Generator {
     }
 
     public void buildHtaccess(Agent agent) {
-        // Redirect stdout to target css file
+        // Build file path to target htaccess file
         File target = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId(), ".htaccess").toFile();
-        redirectStdout(target);
 
         // Build content
         StringBuilder content = new StringBuilder();
@@ -157,14 +156,19 @@ public class Generator {
         content = appendFileContent(content, "template/htaccess/part3.txt");
 
         // Print file
-        out.println(content);
+        try {
+            FileWriter fileWriter = new FileWriter(target);
+            fileWriter.write(content.toString());
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void buildHtpasswd(Agent agent) {
-        // Redirect stdout to target css file
+        // Build file path to target htaccess file
         File target = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId(), ".htpasswd").toFile();
-        redirectStdout(target);
 
         // get encoded password
         String encodedPwd = "";
@@ -181,7 +185,13 @@ public class Generator {
                 .append(encodedPwd);
 
         // Print file
-        out.println(content);
+        try {
+            FileWriter fileWriter = new FileWriter(target);
+            fileWriter.write(content.toString());
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static StringBuilder appendFileContent(StringBuilder content, String fileResourcePath) {
