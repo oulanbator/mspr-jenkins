@@ -2,10 +2,7 @@ package epsi.utils;
 
 import java.io.*;
 import java.net.URLDecoder;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.security.CodeSource;
 
 import epsi.Main;
@@ -13,6 +10,7 @@ import epsi.model.Agent;
 import epsi.services.FileReader;
 
 import static epsi.utils.Constants.*;
+import static java.io.FileDescriptor.out;
 
 public class Utils {
 
@@ -55,18 +53,37 @@ public class Utils {
     public static void copyAgentImage(Agent agent) {
         Path sourcePath = Paths.get(getJarAbsolutePath(), agent.getImageId());
         File targetFile = Paths.get(getJarAbsolutePath(), ROOT, AGENTS, agent.getAgentUniqueId(), agent.getImageId()).toFile();
-        copyImage(sourcePath, targetFile);
-    }
-
-    public static void copyImage(Path sourcePath, File targetFile) {
         try {
-            byte[] buffer = Files.readAllBytes(sourcePath);
-            OutputStream outStream = new FileOutputStream(targetFile);
-            outStream.write(buffer);
-            outStream.close();
-        } catch (IOException e) {
+            copyImage(sourcePath, targetFile);
+        } catch (Exception e) {
+            System.out.println("\nErreur lors de la copie de l'image : " + agent.getImageId());
+            System.out.println("Vérifier que le fichier est correctement nommé.");
+//            logError(agent.getImageId());
             e.printStackTrace();
         }
+    }
+
+    public static void buildAgentDir(Agent agent) {
+        File agentDir = Paths.get(getJarAbsolutePath(), ROOT, AGENTS, agent.getAgentUniqueId()).toFile();
+        agentDir.mkdirs();
+    }
+
+    private static void logError(String imageId) {
+        try {
+            File logs = Paths.get(getJarAbsolutePath(), ROOT, "logs.txt").toFile();
+            FileWriter fileWriter = new FileWriter(logs);
+            fileWriter.write("Error on image copy : " + imageId);
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void copyImage(Path sourcePath, File targetFile) throws IOException {
+        byte[] buffer = Files.readAllBytes(sourcePath);
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(buffer);
+        outStream.close();
     }
 
     public static void redirectStdout(File target) {

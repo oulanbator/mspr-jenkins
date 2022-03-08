@@ -1,4 +1,5 @@
 package epsi;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,9 @@ import epsi.utils.Utils;
 
 public class Main {
     public static void main(String[] args) {
+
+        System.out.println("DEMARRE");
+
         DataParser parser = new DataParser();
 
         List<Agent> agents = parser.getAgents();
@@ -22,6 +26,12 @@ public class Main {
 
         // Build app
         generator.buildDirectories();
+
+        for(Agent agent : agents) {
+            Utils.buildAgentDir(agent);
+            Utils.copyAgentImage(agent);
+        }
+
         generator.buildIndex(agents);
         generator.buildCss();
         generator.build401();
@@ -43,7 +53,6 @@ public class Main {
         generator.buildFicheAgent(agent, materials);
         generator.buildHtaccess(agent);
         generator.buildHtpasswd(agent);
-        Utils.copyAgentImage(agent);
     }
 
 }

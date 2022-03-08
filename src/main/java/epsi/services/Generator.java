@@ -86,10 +86,6 @@ public class Generator {
     }
 
     public void buildFicheAgent(Agent agent, Map<String, String> materialsMap) {
-        // Build agent dir
-        File agentDir = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId()).toFile();
-        agentDir.mkdirs();
-
         // Build file path to target agent index
         File target = Paths.get(jarCurrentPath, ROOT, AGENTS, agent.getAgentUniqueId(), "index.html").toFile();
 
