@@ -11,8 +11,6 @@ import epsi.utils.Utils;
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("DEMARRE");
-
         DataParser parser = new DataParser();
 
         List<Agent> agents = parser.getAgents();

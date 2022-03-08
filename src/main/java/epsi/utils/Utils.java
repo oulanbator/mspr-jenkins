@@ -56,10 +56,10 @@ public class Utils {
         try {
             copyImage(sourcePath, targetFile);
         } catch (Exception e) {
-            System.out.println("\nErreur lors de la copie de l'image : " + agent.getImageId());
-            System.out.println("Vérifier que le fichier est correctement nommé.");
-//            logError(agent.getImageId());
-            e.printStackTrace();
+//            System.out.println("\nErreur lors de la copie de l'image : " + agent.getImageId());
+//            System.out.println("Vérifier que le fichier est correctement nommé.");
+            logError(agent.getImageId());
+//            e.printStackTrace();
         }
     }
 
@@ -70,9 +70,10 @@ public class Utils {
 
     private static void logError(String imageId) {
         try {
-            File logs = Paths.get(getJarAbsolutePath(), ROOT, "logs.txt").toFile();
-            FileWriter fileWriter = new FileWriter(logs);
-            fileWriter.write("Error on image copy : " + imageId);
+            File logs = Paths.get(getJarAbsolutePath(),  "logs.txt").toFile();
+            FileWriter fileWriter = new FileWriter(logs, true);
+            fileWriter.write("Erreur lors de la copie de l'image : " + imageId);
+            fileWriter.write("\nVérifier que le fichier est correctement nommé.\n\n");
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
