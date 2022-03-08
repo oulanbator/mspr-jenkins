@@ -7,10 +7,8 @@ import java.security.CodeSource;
 
 import epsi.Main;
 import epsi.model.Agent;
-import epsi.services.FileReader;
 
 import static epsi.utils.Constants.*;
-import static java.io.FileDescriptor.out;
 
 public class Utils {
 
@@ -36,7 +34,6 @@ public class Utils {
 
     public static void copyLogo() {
         InputStream stream = Utils.class.getResourceAsStream("/logo.png");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         File targetFile = Paths.get(getJarAbsolutePath(), ROOT, IMG, "logo.png").toFile();
         try {
@@ -56,10 +53,7 @@ public class Utils {
         try {
             copyImage(sourcePath, targetFile);
         } catch (Exception e) {
-//            System.out.println("\nErreur lors de la copie de l'image : " + agent.getImageId());
-//            System.out.println("Vérifier que le fichier est correctement nommé.");
             logError(agent.getImageId());
-//            e.printStackTrace();
         }
     }
 
