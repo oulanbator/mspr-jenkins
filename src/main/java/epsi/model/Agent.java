@@ -23,6 +23,10 @@ public class Agent {
         this.imageId = this.agentUniqueId + ".png";
     }
 
+    public Agent(){
+
+    }
+
     // GETTERS & SETTERS
 
     public String getNom() {
