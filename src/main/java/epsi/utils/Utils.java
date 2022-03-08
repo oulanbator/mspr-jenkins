@@ -72,8 +72,8 @@ public class Utils {
         try {
             File logs = Paths.get(getJarAbsolutePath(),  "logs.txt").toFile();
             FileWriter fileWriter = new FileWriter(logs, true);
-            fileWriter.write("Erreur lors de la copie de l'image : " + imageId);
-            fileWriter.write("\nVérifier que le fichier est correctement nommé.\n\n");
+            fileWriter.write("<p>Erreur lors de la copie de l'image : " + imageId);
+            fileWriter.write("</br>Vérifier que le fichier est correctement nommé.<p>");
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
