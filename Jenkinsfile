@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Reports') {
             steps{
-            junit allowEmptyResults: true, skipPublishingChecks: true, testResults: '*/target/surefire-reports/TEST-epsi.model.*.xml'
+            junit allowEmptyResults: true, skipPublishingChecks: true, testResults: '**/target/surefire-reports/*.xml'
                 emailext (
       subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
